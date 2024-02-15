@@ -14,6 +14,8 @@ A straightforward and fast method for accurate backmapping of RNA coarse-grained
 1. "rebuild_AA" (which contains the full atomic reconstructed structures (PDB format) corresponding to the coarse-grained model)
 2. "rmsd_detail" (where the RMSD of each nucleotide, reconstructed with different fragments, is stored. This helps us easily identify which fragment was used to reconstruct each nucleotide in the final structure).
 
+Note: The current version of ABC2A is only compatible with the 3-bead coarse-grained model (i.e., P, C4', N1, or N9; see Refs. 1-3). Users can modify the source file (C program) according to their own needs. If assistance is needed, please contact us (Email: yzshi@wtu.edu.cn).
+
 ## Reference
 1. Shi YZ, Wang FH, Wu YY, Tan ZJ. A coarse-grained model with implicit salt for RNAs: predicting 3D structure, stability and salt effect. J Chem Phys. 2014; 141(10):105102. 
 2. Shi YZ, Jin L, Feng CJ, Tan YL, Tan ZJ. Predicting 3D structure and stability of RNA pseudoknots in monovalent and divalent ion solutions. PLoS Comput Biol. 2018;14(6):e1006222
