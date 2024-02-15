@@ -1,11 +1,11 @@
 /**************************
 **Program:	ABC2A.c
-**Description:	reconstruct the all-atom structure from 3-bead CG conformation(s)
-**Author:	YZ Shi
+**Description:	Reconstruct the all-atom structure from 3-bead CG conformation(s)
+**Author:	YZ Shi & Hao Wu
 **Date:		2023.2
-**Update_version: v3.0(2023.3) for multiple fragment
-**                v4.0(2023.8) bond check
-**                v5.0(2023.10) clash remove
+**Update_version: v1.0(2023.3) for multiple fragment
+**                v2.0(2023.8) bond check
+**                v3.0(2023.10) clash remove
 **Compile:	gcc -Wall -o3 ABC2A.c -o ABC2A -lm
 **Run:		./ABC2A &pdb_name(e.g., 1zih_CG) &fragment_path
 ***************************/
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
    clock_t start,end;
    start=clock();
    if (argc<3) {
-      printf("You must run like: ./CA $pdb_name $fragment_path (e.g., ./CA4 5e54_CG fragment/)\n");}
+      printf("You must run like: ./ABC2A $pdb_name $fragment_path (e.g., ./ABC2A 1zih_CG fragment/)\n");}
    sprintf(frag_path,"%s",argv[2]);
    char  pdb_file[20],AA_PDB[30]; 
    sprintf(pdb_file,"%s.pdb",argv[1]);   printf("pdb_file: %s\n",pdb_file);
