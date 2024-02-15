@@ -1,6 +1,6 @@
 #!/bin/sh
 ## Change $CG_AA_PATH to the directories containing the binary executables (ABC2A)
-export CG_AA_PATH=/Users/s3000762/Documents/Asia/ABC2A/Program
+export CG_AA_PATH=/Users/ABC2A/
 fragment_path=$CG_AA_PATH/fragment/
 file_folder="RNA_CG"
 echo "$file_folder"
