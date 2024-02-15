@@ -1,13 +1,13 @@
 /**************************
-**Program:	CG_AA_5.0.c
-**Description:	reconstruct the all-atom structure from CG conformation
+**Program:	ABC2A.c
+**Description:	reconstruct the all-atom structure from 3-bead CG conformation(s)
 **Author:	YZ Shi
-**Date:		2022.2
+**Date:		2023.2
 **Update_version: v3.0(2023.3) for multiple fragment
-**                v4.0(2023.5) bond check
-**                v5.0(2023.8) clash remove
+**                v4.0(2023.8) bond check
+**                v5.0(2023.10) clash remove
 **Compile:	gcc -Wall -o3 ABC2A.c -o ABC2A -lm
-**Run:		./ABC2A &pdb_name
+**Run:		./ABC2A &pdb_name(e.g., 1zih_CG) &fragment_path
 ***************************/
 #include<stdio.h>
 #include<math.h>
@@ -18,13 +18,13 @@
 #include<string.h>
 #include<stdlib.h>
 #define SIZE 14           //Max_size of str 
-#define Max_atom 10000      //Max_num of atoms
-#define Max_frag_num 25
+#define Max_atom 10000    //Max_num of atoms
+#define Max_frag_num 12
 FILE *out_AA,*out_rmsd;
 char	frag_path[60];
 //char	frag_path[60]="fragment/";
-int	N_frag[5]={0,1,1,1,1};  //[base_type:XAUGC-01234] 
-//int	N_frag[5]={0,20,20,20,20};
+int	N_frag[5]={0,6,6,6,6};  //[base_type:XAUGC-01234] 
+//int	N_frag[5]={0,1,1,1,1};
 char	atom_name[Max_atom][SIZE],res_name[Max_atom][SIZE],chain[Max_atom][SIZE];	
 float	x_frag[5][Max_frag_num][5][50];  //[base_type:AUGC-1234][frag_no][xyz-123][N]
 int	N_frag_atom[5][Max_frag_num];
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
    char rmsd_file[20];
    strcpy(rmsd_file,argv[1]);
    strcat(rmsd_file,"_rmsd.txt");
-   out_rmsd=fopen(rmsd_file,"w+");
+   out_rmsd=fopen(rmsd_file,"w+");   
    Assemble(N0,x);
    end = clock();
    float spendtime = (float)(end-start)/(CLOCKS_PER_SEC);
@@ -146,7 +146,7 @@ int Read_conf_PDB(char file_name[20],float x[5][Max_atom])
        //printf("%s %s %f %f %f\n",atom_name[Num_atom],res_name[Num_atom],x[1][Num_atom],x[2][Num_atom],x[3][Num_atom]); 
    }
    else if (strcmp(atom_name[Num_atom],"C4'")==0) {Num_atom -= 1;}
-   else {Num_atom = Num_atom;}
+   else {}
    
    Get_neighbour(atom_name,x,Num_atom);
    printf("Enjoy: End of conf_PDB-Read;\nThe length of RNA [N_all_atom: %d length: %dnt)\n",Num_atom,Num_atom/3);
@@ -206,7 +206,6 @@ void Read_frag_AUGC()
            Read_one_frag(filename,i,j);}
    }
    printf("Finish reading AUGC_fragment files\n");
-   
 }
 /*****************Calculate the RMSD & Replace the CG by AA******************/
 /*************************Calculate eigenvalue***************************/
@@ -392,7 +391,7 @@ void Remove_clash(float x0[Max_atom/3][50][5],int N,int n[Max_atom/3],float rmsd
 void Out_AA_PDB(int res_id,int N,int atom_id[50],char atom_type[50][SIZE],char res_type[SIZE],float AA_x[50][5])
 {
     for (int i=1;i<=N;i++) {
-        fprintf(out_AA,"%s  %5d  %-4s %2s %c%4d    %8.3f%8.3f%8.3f\n","ATOM",atom_id[i],atom_type[i],res_type,'A',res_id,AA_x[i][1],AA_x[i][2],AA_x[i][3]);  
+        fprintf(out_AA,"%s  %5d  %-4s %2s %c%4d    %8.3f%8.3f%8.3f  %s  %s\n","ATOM",atom_id[i],atom_type[i],res_type,'A',res_id,AA_x[i][1],AA_x[i][2],AA_x[i][3],"1.00","0.00");  
         fflush(out_AA); }
 }
 void Assemble(int N0,float x[5][Max_atom])
